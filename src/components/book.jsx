@@ -58,17 +58,10 @@ class Book extends Component {
             <div className="book_img_wrapper">
               <img src={item.img} alt={item.title} onClick={() => this.refs["modal_book"+index.toString()].handleShowModal()}/>
             </div>
+            <span className="book_title">{item.title}</span>
             <span className="book_author">by <span>{item.author}</span></span>
             <span className="book_rating">{this.getRatingStars(index)}</span>
             <Modal ref={"modal_book"+index.toString()} titleForModal={item.title}>
-              {/* <div className="clearfix">
-                <div className="book_modal_content">
-                <img src={item.img} alt={item.title} className="book_img_inmodal"/>
-                <p className="book_text_inmodal">{this.props.items[index].text}</p>
-                </div>
-              </div> */}
-
-
               <div className="clearfix">
                 <div className="modal_tabs">
                 <ul>

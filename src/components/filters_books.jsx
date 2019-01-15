@@ -25,12 +25,6 @@ class FiltersBooks extends Component {
             <span className="checker">Free Books</span>
           </label>
         </form>
-        <form action="">
-          <div className="search_block">
-            <input type="text" name="" id="" className="search_input" placeholder="Enter Keywords"/>
-            <button type="submit" className="search_button"></button>
-          </div>
-        </form>
       </section>
      );
   }

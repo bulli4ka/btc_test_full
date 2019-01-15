@@ -3,6 +3,7 @@ import Sidebar from "./components/sidebar";
 import TopTitle from "./components/top_title";
 import FiltersBooks from "./components/filters_books";
 import Book from "./components/book";
+import Search from "./components/search";
 import './App.scss';
 
 
@@ -56,17 +57,35 @@ class App extends Component {
         genre: 'book3'
       }
     ],
+    searchedItem: '',
     selectFilter: 'fiter_radio_1'};
+  }
+
+  onSearch(event){
+    this.setState({searchedItem:event});
+    if (event === undefined) {
+      console.log("search null");
+      let storageList = localStorage.getItem("list");
+      storageList = JSON.parse(storageList);
+      this.setState({ list : storageList});
+    } else {
+      let newData = [];
+      newData.push(event);
+      
+      setTimeout(() => {
+        this.setState({list:newData});
+      }, 500);
+    }
+    
   }
 
   saveStateToLocalStorage() {
     for (let key in this.state) {
       localStorage.setItem(key, JSON.stringify(this.state[key]));
     }
-  }
+  };
   componentDidMount() {
     if(localStorage.getItem("list") === null) {
-      console.log(localStorage.getItem("list") === null);
       
       window.removeEventListener(
         "beforeunload",
@@ -78,9 +97,8 @@ class App extends Component {
       let storageList = localStorage.getItem("list");
       storageList = JSON.parse(storageList);
       this.setState({ list : storageList});
-      console.log("state.list: ", this.state.list);
     }
-  }
+  };
   getRandomElement = () => {
     const imagesBooks = [require('./images/book1.png'), require('./images/book2.png'), require('./images/book3.png'),require('./images/book4.png'),require('./images/book5.png'),require('./images/book6.png'),require('./images/book7.png'),require('./images/book8.png'),require('./images/book9.png'),require('./images/book10.png')];
     return imagesBooks[Math.floor(Math.random() * imagesBooks.length)] ;
@@ -102,7 +120,6 @@ class App extends Component {
       genre: event.genre
     });
     this.setState({list:newArray});
-    console.log("addBook" , event.img);
     setTimeout(() => {
       this.saveStateToLocalStorage();
     }, 500);
@@ -111,6 +128,9 @@ class App extends Component {
 
   handleFilterOne = () => {
     this.setState({ selectFilter: 'fiter_radio_1' });
+    let storageList = localStorage.getItem("list");
+    storageList = JSON.parse(storageList);
+    this.setState({ list : storageList});
   }
   handleFilterTwo = () => {
     this.setState({ selectFilter: 'fiter_radio_2' });
@@ -159,6 +179,7 @@ class App extends Component {
         handleFilterThree={this.handleFilterThree.bind(this)}
         handleFilterFour={this.handleFilterFour.bind(this)}
         />
+        <Search items={this.state.list} onSearch={this.onSearch.bind(this)}/>
         <Book items={this.state.list}/>
       </div>
     );
